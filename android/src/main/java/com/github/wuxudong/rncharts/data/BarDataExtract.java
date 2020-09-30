@@ -11,6 +11,7 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.wuxudong.rncharts.utils.BridgeUtils;
 import com.github.wuxudong.rncharts.utils.ChartDataSetConfigUtils;
 import com.github.wuxudong.rncharts.utils.ConversionUtil;
+import com.github.wuxudong.rncharts.utils.DrawableUtils;
 
 import java.util.ArrayList;
 
@@ -40,15 +41,15 @@ public class BarDataExtract extends DataExtract<BarData, BarEntry> {
                 x = (float) map.getDouble("x");
             }
 
-            if (ReadableType.Array.equals(map.getType("y"))) {
-                entry = new BarEntry(x, BridgeUtils.convertToFloatArray(map.getArray("y")));
-            } else if (ReadableType.Number.equals(map.getType("y"))) {
-                entry = new BarEntry(x, (float) map.getDouble("y"));
-            } else {
-                throw new IllegalArgumentException("Unexpected entry type: " + values.getType(index));
+            if (map.hasKey("icon")) {
+                ReadableMap icon = map.getMap("icon");
+                ReadableMap bundle = icon.getMap("bundle");
+                int width = icon.getInt("width");
+                int height = icon.getInt("height");
+                entry = new BarEntry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height));
+              }  else {
+                entry = new BarEntry(x, (float) map.getDouble("y"), ConversionUtil.toMap(map));
             }
-
-            entry.setData(ConversionUtil.toMap(map));
 
         } else if (ReadableType.Array.equals(values.getType(index))) {
             entry = new BarEntry(x, BridgeUtils.convertToFloatArray(values.getArray(index)));
