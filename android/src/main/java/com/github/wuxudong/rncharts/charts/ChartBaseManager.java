@@ -54,6 +54,7 @@
         abstract DataExtract getDataExtract();
 
         /**
+        comment test
          * More details about legend customization: https://github.com/PhilJay/MPAndroidChart/wiki/Legend
          */
         @ReactProp(name = "legend")
