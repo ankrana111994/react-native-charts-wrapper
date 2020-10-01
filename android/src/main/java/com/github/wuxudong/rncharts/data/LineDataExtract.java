@@ -99,6 +99,7 @@ public class LineDataExtract extends DataExtract<LineData, Entry> {
     @Override
     Entry createEntry(ReadableArray values, int index) {
         float x = index;
+        String color="";
 
         Entry entry;
         if (ReadableType.Map.equals(values.getType(index))) {
@@ -112,7 +113,7 @@ public class LineDataExtract extends DataExtract<LineData, Entry> {
                 ReadableMap bundle = icon.getMap("bundle");
                 int width = icon.getInt("width");
                 int height = icon.getInt("height");
-                entry = new Entry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height));
+                entry = new Entry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height,color));
 
             } else {
                 entry = new Entry(x, (float) map.getDouble("y"), ConversionUtil.toMap(map));
