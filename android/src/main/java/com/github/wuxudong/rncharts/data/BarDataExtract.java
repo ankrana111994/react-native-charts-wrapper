@@ -34,19 +34,24 @@ public class BarDataExtract extends DataExtract<BarData, BarEntry> {
         BarEntry entry;
 
         float x = index;
+        String color="";
         if (ReadableType.Map.equals(values.getType(index))) {
             ReadableMap map = values.getMap(index);
 
             if (map.hasKey("x")) {
                 x = (float) map.getDouble("x");
             }
+            if (map.hasKey("data")) {
+                ReadableMap data = map.getMap("data");
+                 color = data.getString("color");
 
+              }
             if (map.hasKey("icon")) {
                 ReadableMap icon = map.getMap("icon");
                 ReadableMap bundle = icon.getMap("bundle");
                 int width = icon.getInt("width");
                 int height = icon.getInt("height");
-                entry = new BarEntry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height));
+                entry = new BarEntry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height,color));
               }  else {
                 entry = new BarEntry(x, (float) map.getDouble("y"), ConversionUtil.toMap(map));
             }
