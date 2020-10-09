@@ -1,5 +1,7 @@
 package com.github.wuxudong.rncharts.data;
 
+import android.content.Context;
+
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
@@ -26,6 +28,7 @@ public class LineDataExtract extends DataExtract<LineData, Entry> {
     LineData createData() {
         return new LineData();
     }
+    public Context context;
 
 
     @Override
@@ -100,7 +103,6 @@ public class LineDataExtract extends DataExtract<LineData, Entry> {
     Entry createEntry(ReadableArray values, int index) {
         float x = index;
         String color="";
-
         Entry entry;
         if (ReadableType.Map.equals(values.getType(index))) {
             ReadableMap map = values.getMap(index);
@@ -113,7 +115,7 @@ public class LineDataExtract extends DataExtract<LineData, Entry> {
                 ReadableMap bundle = icon.getMap("bundle");
                 int width = icon.getInt("width");
                 int height = icon.getInt("height");
-                entry = new Entry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height,color));
+                entry = new Entry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(context,bundle.getString("uri"), width, height,color));
 
             } else {
                 entry = new Entry(x, (float) map.getDouble("y"), ConversionUtil.toMap(map));
