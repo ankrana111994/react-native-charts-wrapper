@@ -1,5 +1,7 @@
 package com.github.wuxudong.rncharts.data;
 
+import android.content.Context;
+
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
@@ -15,8 +17,9 @@ import java.util.ArrayList;
  * Created by xudong on 02/03/2017.
  */
 public class CombinedDataExtract extends DataExtract<CombinedData, Entry> {
+    public static Context context;
     private LineDataExtract lineDataExtract = new LineDataExtract();
-    private BarDataExtract barDataExtract = new BarDataExtract();
+    private BarDataExtract barDataExtract = new BarDataExtract(context);
     private ScatterDataExtract scatterDataExtract = new ScatterDataExtract();
     private CandleDataExtract candleDataExtract = new CandleDataExtract();
     private BubbleDataExtract bubbleDataExtract = new BubbleDataExtract();
@@ -30,6 +33,7 @@ public class CombinedDataExtract extends DataExtract<CombinedData, Entry> {
         }
 
         if (BridgeUtils.validate(propMap, ReadableType.Map, "barData")) {
+            barDataExtract=new BarDataExtract(context);
             chartData.setData(barDataExtract.extract(chart, propMap.getMap("barData")));
         }
 
