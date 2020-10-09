@@ -1,6 +1,8 @@
 package com.github.wuxudong.rncharts.charts;
 
 
+import android.content.Context;
+
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -20,10 +22,13 @@ public class CombinedChartManager extends BarLineChartBaseManager<CombinedChart,
     public String getName() {
         return "RNCombinedChart";
     }
+    Context context;
 
     @Override
     protected CombinedChart createViewInstance(ThemedReactContext reactContext) {
         CombinedChart combinedChart = new CombinedChart(reactContext);
+        context = reactContext;
+
         combinedChart.setOnChartValueSelectedListener(new RNOnChartValueSelectedListener(combinedChart));
         combinedChart.setOnChartGestureListener(new RNOnChartGestureListener(combinedChart));
         return combinedChart;
@@ -57,6 +62,8 @@ public class CombinedChartManager extends BarLineChartBaseManager<CombinedChart,
 
     @Override
     DataExtract getDataExtract() {
-        return new CombinedDataExtract();
+        CombinedDataExtract dataExtract = new CombinedDataExtract();
+        dataExtract.context = context;
+        return dataExtract;
     }
 }
