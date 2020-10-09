@@ -1,5 +1,7 @@
 package com.github.wuxudong.rncharts.charts;
 
+import android.content.Context;
+
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.github.mikephil.charting.charts.BarChart;
@@ -11,6 +13,7 @@ import com.github.wuxudong.rncharts.listener.RNOnChartValueSelectedListener;
 
 public class BarChartManager extends BarLineChartBaseManager<BarChart, BarEntry> {
 
+    Context context;
     @Override
     public String getName() {
         return "RNBarChart";
@@ -26,7 +29,7 @@ public class BarChartManager extends BarLineChartBaseManager<BarChart, BarEntry>
 
     @Override
     DataExtract getDataExtract() {
-        return new BarDataExtract();
+      return new BarDataExtract(context);
     }
 
     @ReactProp(name = "drawValueAboveBar")
