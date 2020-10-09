@@ -1,5 +1,8 @@
 package com.github.wuxudong.rncharts.data;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
@@ -8,6 +11,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.wuxudong.rncharts.charts.BarChartManager;
 import com.github.wuxudong.rncharts.utils.BridgeUtils;
 import com.github.wuxudong.rncharts.utils.ChartDataSetConfigUtils;
 import com.github.wuxudong.rncharts.utils.ConversionUtil;
@@ -19,6 +23,13 @@ import java.util.ArrayList;
  * Created by xudong on 02/03/2017.
  */
 public class BarDataExtract extends DataExtract<BarData, BarEntry> {
+    public static Context context;
+    BarEntry entry;
+
+    public BarDataExtract(Context context) {
+        BarDataExtract.context = context;
+    }
+
     @Override
     BarData createData() {
         return new BarData();
@@ -31,7 +42,6 @@ public class BarDataExtract extends DataExtract<BarData, BarEntry> {
 
     @Override
     BarEntry createEntry(ReadableArray values, int index) {
-        BarEntry entry;
 
         float x = index;
         String color="";
@@ -48,10 +58,13 @@ public class BarDataExtract extends DataExtract<BarData, BarEntry> {
               }
             if (map.hasKey("icon")) {
                 ReadableMap icon = map.getMap("icon");
+
                 ReadableMap bundle = icon.getMap("bundle");
+
                 int width = icon.getInt("width");
                 int height = icon.getInt("height");
-                entry = new BarEntry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height,color));
+
+                entry = new BarEntry(x, (float) map.getDouble("y"), DrawableUtils.drawableFromUrl(context,bundle.getString("uri"), width, height,color));
               }  else {
                 entry = new BarEntry(x, (float) map.getDouble("y"), ConversionUtil.toMap(map));
             }
@@ -63,7 +76,6 @@ public class BarDataExtract extends DataExtract<BarData, BarEntry> {
         } else {
             throw new IllegalArgumentException("Unexpected entry type: " + values.getType(index));
         }
-
         return entry;
     }
 
