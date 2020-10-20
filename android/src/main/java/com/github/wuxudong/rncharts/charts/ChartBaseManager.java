@@ -2,6 +2,7 @@
         package com.github.wuxudong.rncharts.charts;
 
         import android.content.res.ColorStateList;
+        import android.graphics.Color;
         import android.os.Build;
         import android.view.View;
 
@@ -174,10 +175,10 @@
         Description description = new Description();
 
         if (BridgeUtils.validate(propMap, ReadableType.String, "text")) {
-        description.setText(propMap.getString("text"));
+        description.setText("");
         }
         if (BridgeUtils.validate(propMap, ReadableType.Number, "textColor")) {
-        description.setTextColor(propMap.getInt("textColor"));
+        description.setTextColor(Color.TRANSPARENT);
         }
         if (BridgeUtils.validate(propMap, ReadableType.Number, "textSize")) {
         description.setTextSize((float) propMap.getDouble("textSize"));
@@ -302,7 +303,9 @@
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         protected void setCommonAxisConfig(Chart chart, AxisBase axis, ReadableMap propMap) {
         // what is drawn
-        if (BridgeUtils.validate(propMap, ReadableType.Boolean, "enabled")) {
+                setChartDescription(chart,propMap);
+
+                if (BridgeUtils.validate(propMap, ReadableType.Boolean, "enabled")) {
         axis.setEnabled(propMap.getBoolean("enabled"));
         }
         if (BridgeUtils.validate(propMap, ReadableType.Boolean, "drawLabels")) {
